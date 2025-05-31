@@ -1557,7 +1557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wheel1: {fileID: 566877039}
   wheel2: {fileID: 727921453}
-  mode: 0
+  mode: 1
   maxLinearSpeed: 0.22
   maxRotationalSpeed: 2.84
   wheelRadius: 0.033
@@ -2877,6 +2877,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efe06c0608269fb45a852b9c1aff7526, type: 3}
+--- !u!1 &907155274 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3513890383435784659, guid: 7e8ecfd17cd58c247916864b74797f3f, type: 3}
+  m_PrefabInstance: {fileID: 1890099915}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &907155277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907155274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32ee8f2011c7b2b4ea58f0b05d0b1838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Topic: /global_costmap/costmap
+  m_ID: 907155277-0
+  m_Offset: {x: 0, y: 0, z: 0}
+  m_Material: {fileID: 2100000, guid: 8e30ea50d6b692349a46d177ded15435, type: 2}
+  m_TFTrackingSettings:
+    type: 1
+    tfTopic: /tf
+  m_Unoccupied: {r: 0, g: 0.95691204, b: 1, a: 1}
+  m_Occupied: {r: 0, g: 0, b: 0, a: 1}
+  m_Unknown: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1001 &933102598
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5710,6 +5737,10 @@ PrefabInstance:
     - target: {fileID: 1305978815096875101, guid: 7e8ecfd17cd58c247916864b74797f3f, type: 3}
       propertyPath: m_ID
       value: 1305978815096875101-1890099915
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305978815096875101, guid: 7e8ecfd17cd58c247916864b74797f3f, type: 3}
+      propertyPath: m_Topic
+      value: /map
       objectReference: {fileID: 0}
     - target: {fileID: 1341703867306652306, guid: 7e8ecfd17cd58c247916864b74797f3f, type: 3}
       propertyPath: m_ID

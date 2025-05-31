@@ -1,0 +1,32 @@
+
+ask Wouter what topics he runs for his navmesh endeavours in labs so far(incorporate it or at least include it in docker - for when we go there)
+
+to-do: 
+increase smoothness of bot (polling rate increase, give more resources and better drivers to docker) 
+make bot of realistic scale (so it can orient better)
+make goal posing as seamless as possible (SLAM parameters)
+visualise cost map in unity - continue from this step(and remove packages that might be causing conflicts!)
+make goal posing in unity
+setup person behind robot with topic(first virtually then physically)
+make navmesh that treats the bot/person combo as single entity(so gives them routes with enough space for them)
+make static obstacles in the navmesh that the thing reports and we get through apis (mock it all)
+try to make it mix virtual and physical environment maybe - although navmesh kind of does that? ()
+done
+
+continue: https://github.com/Unity-Technologies/Robotics-Nav2-SLAM-Example/blob/main/readmes/unity_viz.md
+
+so far:
+build new image (build.sh file in directory)
+
+run docker container (run.sh file in directory)
+
+start ros2 bridge server (ros2 run ros_tcp_endpoint default_server_endpoint --ros-args -p ROS_IP:=0.0.0.0)
+
+start XLaunch  for visualization environment (export DISPLAY=host.docker.internal:0), not needed soon
+
+start teleop keyboard of choice (ros2 run turtlebot3_teleop teleop_keyboard or ros2 run teleop_twist_keyboard teleop_twist_keyboard)
+
+run ros2 launch unity_slam_example unity_slam_example.py (starts mapping and navigation via rviz - soon enough not needed)
+
+...
+
