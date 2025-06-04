@@ -1,0 +1,33 @@
+[1.599s] Invoking command in '/home/ubuntuhost/example_ws/src/ble_scanner': PYTHONPATH=/home/ubuntuhost/example_ws/src/build/ble_scanner/prefix_override:/home/ubuntuhost/example_ws/src/install/ble_scanner/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../build/ble_scanner build --build-base /home/ubuntuhost/example_ws/src/build/ble_scanner/build install --record /home/ubuntuhost/example_ws/src/build/ble_scanner/install.log --install-scripts $base/lib/ble_scanner --single-version-externally-managed install_data
+[2.213s] running egg_info
+[2.214s] creating ../build/ble_scanner/ble_scanner.egg-info
+[2.215s] writing ../build/ble_scanner/ble_scanner.egg-info/PKG-INFO
+[2.216s] writing dependency_links to ../build/ble_scanner/ble_scanner.egg-info/dependency_links.txt
+[2.216s] writing entry points to ../build/ble_scanner/ble_scanner.egg-info/entry_points.txt
+[2.216s] writing requirements to ../build/ble_scanner/ble_scanner.egg-info/requires.txt
+[2.216s] writing top-level names to ../build/ble_scanner/ble_scanner.egg-info/top_level.txt
+[2.219s] writing manifest file '../build/ble_scanner/ble_scanner.egg-info/SOURCES.txt'
+[2.292s] reading manifest file '../build/ble_scanner/ble_scanner.egg-info/SOURCES.txt'
+[2.294s] writing manifest file '../build/ble_scanner/ble_scanner.egg-info/SOURCES.txt'
+[2.295s] running build
+[2.295s] running build_py
+[2.295s] creating /home/ubuntuhost/example_ws/src/build/ble_scanner/build
+[2.295s] creating /home/ubuntuhost/example_ws/src/build/ble_scanner/build/lib
+[2.296s] creating /home/ubuntuhost/example_ws/src/build/ble_scanner/build/lib/ble_scanner
+[2.296s] copying ble_scanner/__init__.py -> /home/ubuntuhost/example_ws/src/build/ble_scanner/build/lib/ble_scanner
+[2.297s] running install
+[2.298s] running install_lib
+[2.300s] creating /home/ubuntuhost/example_ws/src/install/ble_scanner/lib/python3.8/site-packages/ble_scanner
+[2.301s] copying /home/ubuntuhost/example_ws/src/build/ble_scanner/build/lib/ble_scanner/__init__.py -> /home/ubuntuhost/example_ws/src/install/ble_scanner/lib/python3.8/site-packages/ble_scanner
+[2.302s] byte-compiling /home/ubuntuhost/example_ws/src/install/ble_scanner/lib/python3.8/site-packages/ble_scanner/__init__.py to __init__.cpython-38.pyc
+[2.305s] running install_data
+[2.305s] creating /home/ubuntuhost/example_ws/src/install/ble_scanner/share/ament_index
+[2.305s] creating /home/ubuntuhost/example_ws/src/install/ble_scanner/share/ament_index/resource_index
+[2.306s] creating /home/ubuntuhost/example_ws/src/install/ble_scanner/share/ament_index/resource_index/packages
+[2.306s] copying resource/ble_scanner -> /home/ubuntuhost/example_ws/src/install/ble_scanner/share/ament_index/resource_index/packages
+[2.306s] copying package.xml -> /home/ubuntuhost/example_ws/src/install/ble_scanner/share/ble_scanner
+[2.307s] running install_egg_info
+[2.310s] Copying ../build/ble_scanner/ble_scanner.egg-info to /home/ubuntuhost/example_ws/src/install/ble_scanner/lib/python3.8/site-packages/ble_scanner-0.0.0-py3.8.egg-info
+[2.314s] running install_scripts
+[2.355s] writing list of installed files to '/home/ubuntuhost/example_ws/src/build/ble_scanner/install.log'
+[2.401s] Invoked command in '/home/ubuntuhost/example_ws/src/ble_scanner' returned '0': PYTHONPATH=/home/ubuntuhost/example_ws/src/build/ble_scanner/prefix_override:/home/ubuntuhost/example_ws/src/install/ble_scanner/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../build/ble_scanner build --build-base /home/ubuntuhost/example_ws/src/build/ble_scanner/build install --record /home/ubuntuhost/example_ws/src/build/ble_scanner/install.log --install-scripts $base/lib/ble_scanner --single-version-externally-managed install_data

@@ -1,0 +1,31 @@
+running egg_info
+creating ../build/ble_scanner/ble_scanner.egg-info
+writing ../build/ble_scanner/ble_scanner.egg-info/PKG-INFO
+writing dependency_links to ../build/ble_scanner/ble_scanner.egg-info/dependency_links.txt
+writing entry points to ../build/ble_scanner/ble_scanner.egg-info/entry_points.txt
+writing requirements to ../build/ble_scanner/ble_scanner.egg-info/requires.txt
+writing top-level names to ../build/ble_scanner/ble_scanner.egg-info/top_level.txt
+writing manifest file '../build/ble_scanner/ble_scanner.egg-info/SOURCES.txt'
+reading manifest file '../build/ble_scanner/ble_scanner.egg-info/SOURCES.txt'
+writing manifest file '../build/ble_scanner/ble_scanner.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/ubuntuhost/example_ws/src/build/ble_scanner/build
+creating /home/ubuntuhost/example_ws/src/build/ble_scanner/build/lib
+creating /home/ubuntuhost/example_ws/src/build/ble_scanner/build/lib/ble_scanner
+copying ble_scanner/__init__.py -> /home/ubuntuhost/example_ws/src/build/ble_scanner/build/lib/ble_scanner
+running install
+running install_lib
+creating /home/ubuntuhost/example_ws/src/install/ble_scanner/lib/python3.8/site-packages/ble_scanner
+copying /home/ubuntuhost/example_ws/src/build/ble_scanner/build/lib/ble_scanner/__init__.py -> /home/ubuntuhost/example_ws/src/install/ble_scanner/lib/python3.8/site-packages/ble_scanner
+byte-compiling /home/ubuntuhost/example_ws/src/install/ble_scanner/lib/python3.8/site-packages/ble_scanner/__init__.py to __init__.cpython-38.pyc
+running install_data
+creating /home/ubuntuhost/example_ws/src/install/ble_scanner/share/ament_index
+creating /home/ubuntuhost/example_ws/src/install/ble_scanner/share/ament_index/resource_index
+creating /home/ubuntuhost/example_ws/src/install/ble_scanner/share/ament_index/resource_index/packages
+copying resource/ble_scanner -> /home/ubuntuhost/example_ws/src/install/ble_scanner/share/ament_index/resource_index/packages
+copying package.xml -> /home/ubuntuhost/example_ws/src/install/ble_scanner/share/ble_scanner
+running install_egg_info
+Copying ../build/ble_scanner/ble_scanner.egg-info to /home/ubuntuhost/example_ws/src/install/ble_scanner/lib/python3.8/site-packages/ble_scanner-0.0.0-py3.8.egg-info
+running install_scripts
+writing list of installed files to '/home/ubuntuhost/example_ws/src/build/ble_scanner/install.log'
