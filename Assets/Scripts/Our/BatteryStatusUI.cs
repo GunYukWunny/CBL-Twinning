@@ -11,7 +11,7 @@ public class BatteryStatusUI : MonoBehaviour
     public Slider batteryBar;
     public Text batteryText;
 
-    private float batteryPercentage = 100f;
+    public float batteryPercentage = 100f;
 
     void Start()
     {
