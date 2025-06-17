@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Robotics.ROSTCPConnector;
 using RosMessageTypes.Sensor;
+using System;
 
 public class BatteryStatusUI : MonoBehaviour
 {
@@ -10,8 +11,11 @@ public class BatteryStatusUI : MonoBehaviour
 
     public Slider batteryBar;
     public Text batteryText;
+    public Text textMeshProGUI;
 
     public float batteryPercentage = 100f;
+
+    public Boolean overwriteBattery;
 
     void Start()
     {
@@ -21,7 +25,11 @@ public class BatteryStatusUI : MonoBehaviour
 
     void BatteryCallback(BatteryStateMsg msg)
     {
-        batteryPercentage = msg.percentage * 100f;
+        if (!overwriteBattery)
+        {
+            batteryPercentage = msg.percentage * 100f;
+        }
+        
     }
 
     void Update()

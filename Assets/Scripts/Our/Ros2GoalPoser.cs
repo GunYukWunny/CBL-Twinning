@@ -43,7 +43,7 @@ public class Ros2GoalPoser : MonoBehaviour
         }
     }
 
-    public void SendGoalPose(Vector3 unityWorldPosition)
+    public void SendGoalPose(Vector3 unityWorldPosition, Quaternion unityRotation)
     {
         if (!publisherRegistered || rosConnection == null || rosConnection.HasConnectionError)
         {
@@ -51,12 +51,19 @@ public class Ros2GoalPoser : MonoBehaviour
             return;
         }
 
-        // Convert Unity position to ROS (X = Z, Y = -X)
+        // Convert Unity to ROS position
         Vector3 rosPosition = new Vector3(unityWorldPosition.z, -unityWorldPosition.x, 0.0f);
-        Quaternion rosOrientation = Quaternion.identity;
 
+        // Get robot's current rotation in ROS coordinate system
+        Quaternion rosRotation = new Quaternion(
+            -unityRotation.z,   // x (Unity Z → ROS X, inverted)
+            unityRotation.x,    // y (Unity X → ROS Y)
+            -unityRotation.y,   // z (Unity Y → ROS Z, inverted)
+            unityRotation.w     // w
+        );
+
+        // Build message
         PoseStampedMsg goalPose = new PoseStampedMsg();
-
         double timeNow = Time.realtimeSinceStartupAsDouble;
         goalPose.header.stamp = new TimeMsg((int)timeNow, (uint)((timeNow - (int)timeNow) * 1e9));
         goalPose.header.frame_id = "map";
@@ -65,10 +72,10 @@ public class Ros2GoalPoser : MonoBehaviour
         goalPose.pose.position.y = rosPosition.y;
         goalPose.pose.position.z = rosPosition.z;
 
-        goalPose.pose.orientation.x = rosOrientation.x;
-        goalPose.pose.orientation.y = rosOrientation.y;
-        goalPose.pose.orientation.z = rosOrientation.z;
-        goalPose.pose.orientation.w = rosOrientation.w;
+        goalPose.pose.orientation.x = rosRotation.x;
+        goalPose.pose.orientation.y = rosRotation.y;
+        goalPose.pose.orientation.z = rosRotation.z;
+        goalPose.pose.orientation.w = rosRotation.w;
 
         rosConnection.Publish(goalTopicName, goalPose);
         Debug.Log($"Published goal to ROS: X={rosPosition.x}, Y={rosPosition.y}");

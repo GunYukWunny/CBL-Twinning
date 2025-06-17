@@ -3,6 +3,7 @@ using UnityEngine;
 public class Ros2ClickGoalPose : MonoBehaviour
 {
     public Ros2GoalPoser goalSender;
+    public Transform robotTransform;
 
     void Start()
     {
@@ -30,7 +31,7 @@ public class Ros2ClickGoalPose : MonoBehaviour
         {
             if (hit.collider.gameObject == gameObject)
             {
-                goalSender.SendGoalPose(hit.point);
+                goalSender.SendGoalPose(hit.point, robotTransform.rotation);
                 Debug.Log("Sent click goal" + gameObject.name);
             }
         }
