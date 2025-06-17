@@ -13,6 +13,7 @@ public class BatteryStatusUI : MonoBehaviour
     public Text batteryText;
     public Text textMeshProGUI;
 
+    [Range(0, 100)]
     public float batteryPercentage = 100f;
 
     public Boolean overwriteBattery;
@@ -29,12 +30,20 @@ public class BatteryStatusUI : MonoBehaviour
         {
             batteryPercentage = msg.percentage * 100f;
         }
-        
+
     }
 
     void Update()
     {
-        batteryBar.value = batteryPercentage;
-        batteryText.text = $"Battery: {batteryPercentage:F1}%";
+        if (overwriteBattery)
+        {
+            batteryPercentage = batteryBar.value;
+            batteryText.text = $"Battery: {batteryPercentage:F1}%";
+        }
+        else
+        {
+            batteryBar.value = batteryPercentage;
+            batteryText.text = $"Battery: {batteryPercentage:F1}%";
+        }
     }
 }

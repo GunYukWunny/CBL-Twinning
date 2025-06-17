@@ -11,6 +11,8 @@ public class Ros2PathPlanner : MonoBehaviour
     public Ros2GoalPoser externalSender;
     public BatteryStatusUI batteryStatus;
 
+    public double batteryToMeterConstant = 1/50f;
+
     [Header("Path Rendering")]
     public LineRenderer lineRendererPrefab;
     public GameObject goalMarkerPrefab;
@@ -43,8 +45,8 @@ public class Ros2PathPlanner : MonoBehaviour
     private float resendTimer = 0f;
     private float pathRecheckTimer = 0f;
 
-    private bool isTrackingPlayer = false;
-    private bool hasPlannedToPlayer = false;
+    private bool isTrackingHuman = false;
+    private bool hasPlannedToHuman = false;
 
     void Start()
     {
@@ -57,24 +59,24 @@ public class Ros2PathPlanner : MonoBehaviour
     {
         if (humanTransform != null)
         {
-            float distanceToPlayer = Vector3.Distance(robotTransform.position, humanTransform.position);
+            float distanceToHuman = Vector3.Distance(robotTransform.position, humanTransform.position);
 
-            if (distanceToPlayer < 0.5f && isTrackingPlayer)
+            if (distanceToHuman < 0.5f && isTrackingHuman)
             {
                 humanTransform.GetComponent<FollowRobot>()?.reattach();
-                isTrackingPlayer = false;
-                hasPlannedToPlayer = false;
+                isTrackingHuman = false;
+                hasPlannedToHuman = false;
             }
 
-            if (distanceToPlayer > maxDistanceToHuman && !isTrackingPlayer && !hasPlannedToPlayer)
+            if (distanceToHuman > maxDistanceToHuman && !isTrackingHuman && !hasPlannedToHuman)
             {
-                GoToPlayer();
+                GoToHuman();
                 return;
             }
         }
 
-        // Only handle clicks if we're not tracking the player AND a UI element isn't currently being interacted with
-        if (!isTrackingPlayer)
+        // Only handle clicks if we're not tracking the Human AND a UI element isn't currently being interacted with
+        if (!isTrackingHuman)
             HandleClick();
 
         HandlePathRecheck();
@@ -104,10 +106,10 @@ public class Ros2PathPlanner : MonoBehaviour
                 else
                 {
                     pathActive = false;
-                    if (isTrackingPlayer)
+                    if (isTrackingHuman)
                     {
-                        isTrackingPlayer = false;
-                        hasPlannedToPlayer = false;
+                        isTrackingHuman = false;
+                        hasPlannedToHuman = false;
                     }
                     ShowMessage("Destination Reached!");
                     ClearPathVisuals();
@@ -129,8 +131,8 @@ public class Ros2PathPlanner : MonoBehaviour
             Ray ray = sceneCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 100f, clickableLayers))
             {
-                // The 'isTrackingPlayer' check is already here, but good to keep for clarity
-                if (isTrackingPlayer)
+                // The 'isTrackingHuman' check is already here, but good to keep for clarity
+                if (isTrackingHuman)
                     return;
 
                 Vector3 clickedPoint = hit.point;
@@ -169,11 +171,11 @@ public class Ros2PathPlanner : MonoBehaviour
 
     private void AttemptPathCalculation(Vector3 startPoint, Vector3 endPoint)
     {
-        if (batteryStatus != null && batteryStatus.batteryPercentage/ 50f <= Vector3.Distance(startPoint, endPoint) )
+        if (batteryStatus != null && batteryStatus.batteryPercentage *batteryToMeterConstant <= Vector3.Distance(startPoint, endPoint))
         {
             pathActive = false;
-            isTrackingPlayer = false;
-            hasPlannedToPlayer = false;
+            isTrackingHuman = false;
+            hasPlannedToHuman = false;
             ClearPathVisuals();
             ShowMessage("Not Enough Battery To Reach Target");
             return;
@@ -198,23 +200,23 @@ public class Ros2PathPlanner : MonoBehaviour
         else
         {
             pathActive = false;
-            isTrackingPlayer = false;
-            hasPlannedToPlayer = false;
+            isTrackingHuman = false;
+            hasPlannedToHuman = false;
             ClearPathVisuals();
             ShowMessage("Target Not Reachable!");
         }
     }
 
-    private void GoToPlayer()
+    private void GoToHuman()
     {
-        if (batteryStatus != null && batteryStatus.batteryPercentage <= Vector3.Distance(robotTransform.position, humanTransform.position) / 50f)
+        if (batteryStatus != null && batteryStatus.batteryPercentage * batteryToMeterConstant <= Vector3.Distance(robotTransform.position, humanTransform.position))
         {
-            ShowMessage("Not enough battery to follow player");
+            ShowMessage("Not enough battery to follow Human");
             return;
         }
 
-        isTrackingPlayer = true;
-        hasPlannedToPlayer = true;
+        isTrackingHuman = true;
+        hasPlannedToHuman = true;
         currentGoalPoint = humanTransform.position;
         ClearPathVisuals();
         AttemptPathCalculation(robotTransform.position, humanTransform.position);
