@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RosMessageTypes.Nav;
 using Unity.Robotics.ROSTCPConnector;
-using Unity.Robotics.ROSTCPConnector.ROSGeometry; // For From<FLU>() conversion
+using Unity.Robotics.ROSTCPConnector.ROSGeometry; 
 
 public class Ros2OccupancyGridVisualizer : MonoBehaviour
 {
@@ -14,11 +14,11 @@ public class Ros2OccupancyGridVisualizer : MonoBehaviour
     private List<GameObject> cubes = new List<GameObject>();
     private int mapWidth = 0;
     private int mapHeight = 0;
-    private float cellSize = 1f; // will be set from message
+    private float cellSize = 1f; // Will be set from message
 
     private Vector3 origin;
     private Quaternion rotation;
-    private Vector3 offset = Vector3.zero; // can expose this if you want to tweak
+    public Vector3 offset = Vector3.zero; 
 
     void Start()
     {
@@ -75,10 +75,10 @@ public class Ros2OccupancyGridVisualizer : MonoBehaviour
                     }
 
                     // Position cubes so each cube is centered on its corresponding pixel
-                    // since origin is already offset, just place cubes at cell centers:
+                    // Since origin is already offset, just place cubes at cell centers:
                     cube.transform.localPosition = new Vector3(
                         x * cellSize + cellSize / 2f,
-                        cellSize / 2f, // to sit on ground, assuming cube height == cellSize
+                        cellSize / 2f, // To sit on ground, assuming cube height == cellSize
                         y * cellSize + cellSize / 2f
                     );
 

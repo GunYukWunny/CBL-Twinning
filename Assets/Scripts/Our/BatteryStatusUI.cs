@@ -6,12 +6,11 @@ using System;
 
 public class BatteryStatusUI : MonoBehaviour
 {
-    ROSConnection ros;
+    private ROSConnection ros;
     public string batteryTopic = "/battery_state";
 
     public Slider batteryBar;
     public Text batteryText;
-    public Text textMeshProGUI;
 
     [Range(0, 100)]
     public float batteryPercentage = 100f;
@@ -38,12 +37,19 @@ public class BatteryStatusUI : MonoBehaviour
         if (overwriteBattery)
         {
             batteryPercentage = batteryBar.value;
-            batteryText.text = $"Battery: {batteryPercentage:F1}%";
         }
         else
         {
             batteryBar.value = batteryPercentage;
-            batteryText.text = $"Battery: {batteryPercentage:F1}%";
         }
+
+        batteryText.text = "Battery: " + Math.Floor(batteryPercentage) + " % ";
+    }
+
+    public void ToggleOverwriteBattery()
+    {
+        overwriteBattery = !overwriteBattery;
+        Debug.Log("Overwrite Battery toggled to: " + overwriteBattery);
     }
 }
+

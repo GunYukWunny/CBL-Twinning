@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.EventSystems; // Add this namespace for UI event checking
+using UnityEngine.EventSystems; 
 
 public class Ros2PathPlanner : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class Ros2PathPlanner : MonoBehaviour
     public Ros2GoalPoser externalSender;
     public BatteryStatusUI batteryStatus;
 
-    public double batteryToMeterConstant = 1/50f;
+    public double batteryToMeterConstant = 1 / 50f;
 
     [Header("Path Rendering")]
     public LineRenderer lineRendererPrefab;
@@ -66,6 +66,11 @@ public class Ros2PathPlanner : MonoBehaviour
                 humanTransform.GetComponent<FollowRobot>()?.reattach();
                 isTrackingHuman = false;
                 hasPlannedToHuman = false;
+                pathActive = false;
+                externalSender.SendGoalPose(robotTransform.position, robotTransform.rotation);
+                ShowMessage("Destination Reached!");
+                ClearPathVisuals();
+
             }
 
             if (distanceToHuman > maxDistanceToHuman && !isTrackingHuman && !hasPlannedToHuman)
@@ -145,33 +150,58 @@ public class Ros2PathPlanner : MonoBehaviour
 
     private void HandlePathRecheck()
     {
-        if (pathActive)
+        if (!pathActive) return;
+
+        pathRecheckTimer += Time.deltaTime;
+        if (pathRecheckTimer < pathRecheckInterval) return;
+
+        pathRecheckTimer = 0f;
+
+        NavMeshPath newPath = new NavMeshPath();
+        bool newPathFound = NavMesh.CalculatePath(robotTransform.position, currentGoalPoint, NavMesh.AllAreas, newPath);
+
+        // If the path is invalid or blocked, try to find a new one
+        if (!newPathFound || newPath.status != NavMeshPathStatus.PathComplete || newPath.corners.Length < 2)
         {
-            pathRecheckTimer += Time.deltaTime;
-            if (pathRecheckTimer >= pathRecheckInterval)
+            ShowMessage("Path blocked! Replanning...");
+
+            // Try recalculating again in a slightly different way (e.g., jitter the goal a bit or reattempt with fallback)
+            Vector3 slightOffset = currentGoalPoint + new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
+            bool fallbackFound = NavMesh.CalculatePath(robotTransform.position, slightOffset, NavMesh.AllAreas, newPath);
+
+            if (fallbackFound && newPath.status == NavMeshPathStatus.PathComplete && newPath.corners.Length > 1)
             {
-                pathRecheckTimer = 0f;
-                NavMeshPath checkPath = new NavMeshPath();
-                if (currentPath.corners.Length > currentWaypointIndex &&
-                    NavMesh.CalculatePath(robotTransform.position, currentPath.corners[currentPath.corners.Length - 1], NavMesh.AllAreas, checkPath) &&
-                    checkPath.status == NavMeshPathStatus.PathComplete)
-                {
-                    if (currentPath.status != NavMeshPathStatus.PathComplete)
-                    {
-                        AttemptPathCalculation(robotTransform.position, currentGoalPoint);
-                    }
-                }
-                else
-                {
-                    AttemptPathCalculation(robotTransform.position, currentGoalPoint);
-                }
+                currentGoalPoint = slightOffset;
+                ApplyNewPath(newPath);
+                ShowMessage("New alternate path found.");
+            }
+            else
+            {
+                pathActive = false;
+                isTrackingHuman = false;
+                hasPlannedToHuman = false;
+                ClearPathVisuals();
+                ShowMessage("Unable to find alternate path!");
+                externalSender.SendGoalPose(robotTransform.position, robotTransform.rotation);
             }
         }
     }
 
+    private void ApplyNewPath(NavMeshPath newPath)
+    {
+        currentPath = newPath;
+        currentWaypointIndex = 0;
+        resendTimer = 0f;
+        pathActive = true;
+
+        externalSender.SendGoalPose(currentPath.corners[currentWaypointIndex], robotTransform.rotation);
+        DrawPath();
+        DrawGoalMarkers();
+    }
+
     private void AttemptPathCalculation(Vector3 startPoint, Vector3 endPoint)
     {
-        if (batteryStatus != null && batteryStatus.batteryPercentage *batteryToMeterConstant <= Vector3.Distance(startPoint, endPoint))
+        if (batteryStatus != null && batteryStatus.batteryPercentage * batteryToMeterConstant <= Vector3.Distance(startPoint, endPoint))
         {
             pathActive = false;
             isTrackingHuman = false;
@@ -203,7 +233,8 @@ public class Ros2PathPlanner : MonoBehaviour
             isTrackingHuman = false;
             hasPlannedToHuman = false;
             ClearPathVisuals();
-            ShowMessage("Target Not Reachable!");
+            ShowMessage("Target Not Reachable! Stopping robot.");
+            externalSender.SendGoalPose(robotTransform.position, robotTransform.rotation);
         }
     }
 
@@ -212,6 +243,7 @@ public class Ros2PathPlanner : MonoBehaviour
         if (batteryStatus != null && batteryStatus.batteryPercentage * batteryToMeterConstant <= Vector3.Distance(robotTransform.position, humanTransform.position))
         {
             ShowMessage("Not enough battery to follow Human");
+            externalSender.SendGoalPose(robotTransform.position, robotTransform.rotation);
             return;
         }
 

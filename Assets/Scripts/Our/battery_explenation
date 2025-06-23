@@ -1,0 +1,8 @@
+Mock Battery Setup
+
+To fake /battery_state (because this topic does not exist without physical turtlebot):
+1. Move the battery_sim folder to the ros2_ws/src
+2. colcon build
+3. source install/local_setup.bash (or whatever the source command is)
+4. ros2 run battery_sim battery_sim_publisher
+5. Should repeatedly publish to /battery_state going from 100% to 0%. Just ^c and run the above command again to restart it.
